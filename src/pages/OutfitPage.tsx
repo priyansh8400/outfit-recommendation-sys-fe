@@ -7,17 +7,17 @@ import OutfitSection from '../components/OutfitSection';
 import RecommendationSection from '../components/RecommendationSection';
 
 const OutfitPage: React.FC = () => {
-    const { personId } = useParams<{ personId: string }>();
+    const { personId, outfitId } = useParams<{ personId: string, outfitId: string }>();
     const navigate = useNavigate();
-    const { data, loading, error } = useOutfitFull(personId);
+    const { data, loading, error } = useOutfitFull(personId, outfitId);
 
     if (loading) return <Loader />;
 
     if (error) {
         return (
             <div className="container">
-                <button className="btn btn-secondary back-btn" onClick={() => navigate('/')}>
-                    ← Back to Models
+                <button className="btn btn-secondary back-btn" onClick={() => navigate(-1)}>
+                    ← Back to Outfits
                 </button>
                 <ErrorMessage message={error.message} onRetry={() => window.location.reload()} />
             </div>
@@ -34,13 +34,13 @@ const OutfitPage: React.FC = () => {
 
     return (
         <div className="container">
-            <button className="btn btn-secondary back-btn" onClick={() => navigate('/')}>
-                ← Back to Models
+            <button className="btn btn-secondary back-btn" onClick={() => navigate(`/outfits/${data.person.gender}`)}>
+                ← Back to Outfits
             </button>
 
             <div className="profile-header">
                 <img
-                    src={data.person.image_url}
+                    src={data.wearing && 'image_url' in data.wearing && typeof data.wearing.image_url === 'string' ? data.wearing.image_url : data.person.image_url}
                     alt={data.person.name}
                     className="profile-image"
                 />
@@ -59,9 +59,15 @@ const OutfitPage: React.FC = () => {
             {data.recommendations && (
                 <div className="recommendations-container">
                     <h2 className="recommendations-header">Style Recommendations</h2>
-                    <RecommendationSection title="Similar Tops" items={data.recommendations.top} />
-                    <RecommendationSection title="Similar Bottoms" items={data.recommendations.bottom} />
-                    <RecommendationSection title="Similar Shoes" items={data.recommendations.shoes} />
+                    {data.wearing?.outfitType === 'dress' ? (
+                        <RecommendationSection title="Similar Dresses" items={data.recommendations.dress || []} />
+                    ) : (
+                        <>
+                            <RecommendationSection title="Similar Tops" items={data.recommendations.top || []} />
+                            <RecommendationSection title="Similar Bottoms" items={data.recommendations.bottom || []} />
+                        </>
+                    )}
+                    <RecommendationSection title="Similar Shoes" items={data.recommendations.shoes || []} />
                 </div>
             )}
         </div>

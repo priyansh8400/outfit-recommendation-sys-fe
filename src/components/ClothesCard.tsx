@@ -20,6 +20,11 @@ const ClothesCard: React.FC<ClothesCardProps> = ({ clothes }) => {
                     {clothes.name}
                 </h3>
                 <div className="clothes-meta">
+                    {clothes.price !== undefined && clothes.price !== null && (
+                        <span className="meta-item price" style={{ fontWeight: 'bold', color: 'var(--accent-color)' }}>
+                            ₹{clothes.price.toLocaleString('en-IN')}
+                        </span>
+                    )}
                     {clothes.brand && <span className="meta-item">{clothes.brand}</span>}
                     {clothes.color && <span className="meta-item color-meta">
                         <span className="color-dot" style={{ backgroundColor: clothes.color.toLowerCase() }}></span>

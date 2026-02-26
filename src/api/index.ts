@@ -10,8 +10,24 @@ export async function fetchPersons(): Promise<Person[]> {
     return response.json();
 }
 
-export async function fetchOutfitFull(personId: string): Promise<OutfitFullResponse> {
-    const response = await fetch(`${API_URL}/outfit/${personId}/full`);
+export async function fetchPersonsByGender(gender: string): Promise<Person[]> {
+    const response = await fetch(`${API_URL}/persons?gender=${gender}`);
+    if (!response.ok) {
+        throw new Error('Failed to fetch persons by gender');
+    }
+    return response.json();
+}
+
+export async function fetchPersonOutfits(personId: string) {
+    const response = await fetch(`${API_URL}/persons/${personId}/outfits`);
+    if (!response.ok) {
+        throw new Error('Failed to fetch person outfits');
+    }
+    return response.json();
+}
+
+export async function fetchOutfitFull(personId: string, outfitId: string): Promise<OutfitFullResponse> {
+    const response = await fetch(`${API_URL}/outfit/${personId}/${outfitId}`);
     if (!response.ok) {
         throw new Error('Failed to fetch outfit details');
     }

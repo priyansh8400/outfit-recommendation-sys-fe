@@ -1,19 +1,26 @@
 import { useState, useEffect } from 'react';
-import { OutfitFullResponse } from '../types';
-import { fetchOutfitFull } from '../api';
+import { PersonOutfitsResponse } from '../types';
+import { fetchPersonOutfits, fetchPersonsByGender } from '../api';
 
-export function useOutfitFull(personId: string | undefined, outfitId: string | undefined) {
-    const [data, setData] = useState<OutfitFullResponse | null>(null);
+export function usePersonOutfits(gender: string | undefined) {
+    const [data, setData] = useState<PersonOutfitsResponse | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<Error | null>(null);
 
     useEffect(() => {
-        if (!personId || !outfitId) return;
-
+        if (!gender) return;
         let isMounted = true;
 
         setLoading(true);
-        fetchOutfitFull(personId, outfitId)
+        // 1. Fetch persons by gender (since the backend now supports ?gender=xyz)
+        // We know we only have 1 persona per gender
+        fetchPersonsByGender(gender)
+            .then((persons) => {
+                if (persons.length === 0) throw new Error("No personas found for this gender.");
+                const personId = persons[0].id;
+                // 2. Fetch all outfits for this person
+                return fetchPersonOutfits(personId);
+            })
             .then((res) => {
                 if (isMounted) {
                     setData(res);
@@ -33,7 +40,7 @@ export function useOutfitFull(personId: string | undefined, outfitId: string | u
         return () => {
             isMounted = false;
         };
-    }, [personId]);
+    }, [gender]);
 
     return { data, loading, error };
 }
