@@ -9,8 +9,8 @@
   --error-color: #ef4444;
   --success-color: #10b981;
   --radius: 12px;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
-  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   --transition: all 0.2s ease-in-out;
 }
 
@@ -79,9 +79,13 @@ body {
 }
 
 .card-image-wrapper {
-  aspect-ratio: 3/4;
+  /* Remove aspect-ratio so images determine their own natural height */
   overflow: hidden;
   background-color: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
 }
 
 .clothes-img-wrapper {
@@ -90,8 +94,10 @@ body {
 
 .card-image-wrapper img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
+  max-height: 500px;
+  object-fit: contain;
+  /* Ensure the WHOLE image is visible without cropping */
   transition: transform 0.3s ease;
 }
 
@@ -127,8 +133,16 @@ body {
 
 .person-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  /* Exactly 2 horizontal cards per row */
+  grid-template-columns: repeat(2, 1fr);
   gap: 2rem;
+}
+
+/* Make it responsive for very small screens */
+@media (max-width: 640px) {
+  .person-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Outfit Section */
@@ -179,7 +193,7 @@ body {
   display: none;
 }
 
-.horizontal-scroll > * {
+.horizontal-scroll>* {
   min-width: 250px;
   max-width: 250px;
   scroll-snap-align: start;
@@ -230,7 +244,7 @@ body {
   height: 12px;
   border-radius: 50%;
   display: inline-block;
-  border: 1px solid rgba(0,0,0,0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 /* Profile Page */
@@ -324,8 +338,13 @@ body {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Error */
@@ -348,4 +367,188 @@ body {
   color: var(--error-color);
   font-weight: 500;
   font-size: 1.125rem;
+}
+
+/* ==========================================================================
+   LOOKBOOK DESIGN 
+   ========================================================================== */
+
+.lookbook-container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem 4rem;
+  background-color: #fcfcfc;
+  /* Very light, warm off-white */
+  min-height: 100vh;
+  color: #1a1a1a;
+}
+
+/* Top Navigation Bar */
+.lookbook-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6rem;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  font-size: 2.5rem;
+  text-transform: uppercase;
+}
+
+.nav-collection {
+  color: #888;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  font-size: 2.0rem;
+}
+
+/* Header Section */
+.lookbook-header {
+  margin-bottom: 5rem;
+  max-width: 800px;
+}
+
+.lookbook-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 4.5rem;
+  font-weight: 400;
+  line-height: 1.1;
+  color: #111;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.02em;
+}
+
+.lookbook-subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #666;
+  max-width: 600px;
+  font-weight: 300;
+}
+
+/* Featured Looks Divider */
+.featured-divider {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eaeaea;
+  padding-bottom: 1rem;
+  margin-bottom: 3rem;
+}
+
+.featured-text {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 2.0rem;
+  letter-spacing: 0.15em;
+  color: #555;
+}
+
+.styles-count {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  color: #888;
+}
+
+/* 3-Column Grid */
+.lookbook-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+@media (max-width: 1024px) {
+  .lookbook-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .lookbook-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .lookbook-title {
+    font-size: 3rem;
+  }
+
+  .lookbook-container {
+    padding: 1.5rem;
+  }
+}
+
+/* Lookbook Cards */
+.lookbook-card {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  background-color: transparent;
+  transition: opacity 0.3s ease;
+}
+
+.lookbook-card:hover {
+  opacity: 0.9;
+}
+
+.lookbook-image-wrapper {
+  background-color: #f4f4f4;
+  /* Clean borderless image area just like the mockup */
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.lookbook-image-wrapper img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3/4;
+  /* Keeps them mathematically uniform like the mockup */
+  object-fit: contain;
+  /* Don't cut off heads/feet */
+  display: block;
+}
+
+.lookbook-card-footer {
+  padding: 0.5rem 0.5rem 1rem 0.5rem;
+  border-top: none;
+}
+
+/* Outfit Details Page */
+.outfit-detail-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+@media (max-width: 1024px) {
+  .outfit-detail-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.large-outfit-wrapper {
+  background-color: #f4f4f4;
+  border-radius: 6px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.large-outfit-image {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3/4;
+  object-fit: contain;
+  display: block;
+}
+
+.lookbook-gender {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: #666;
+  font-weight: 500;
 }

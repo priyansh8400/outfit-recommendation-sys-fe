@@ -24,7 +24,7 @@ const OutfitPage: React.FC = () => {
         );
     }
 
-    if (!data?.person) {
+    if (!data || !data.person) {
         return (
             <div className="container">
                 <ErrorMessage message="Person not found." />
@@ -33,43 +33,54 @@ const OutfitPage: React.FC = () => {
     }
 
     return (
-        <div className="container">
-            <button className="btn btn-secondary back-btn" onClick={() => navigate(`/outfits/${data.person.gender}`)}>
-                ← Back to Outfits
-            </button>
+        <div className="lookbook-container">
+            {/* Top Navigation Bar */}
+            <nav className="lookbook-nav">
+                <div className="nav-brand" onClick={() => navigate(`/outfits/${data.person.gender}`)} style={{ cursor: 'pointer' }}>LOOKBOOK</div>
+                <div className="nav-collection">2026 COLLECTION</div>
+            </nav>
 
-            <div className="profile-header">
-                <img
-                    src={data.wearing && 'image_url' in data.wearing && typeof data.wearing.image_url === 'string' ? data.wearing.image_url : data.person.image_url}
-                    alt={data.person.name}
-                    className="profile-image"
-                />
-                <div>
-                    <h1 className="profile-title">{data.person.name}</h1>
-                    <span className="badge">{data.person.gender}</span>
+            <div className="outfit-detail-layout">
+                {/* Left Column: Big Image & Info */}
+                <div className="outfit-detail-image-col">
+                    <button className="btn btn-secondary back-btn" onClick={() => navigate(`/outfits/${data.person.gender}`)} style={{ border: 'none', background: 'transparent', padding: 0, fontWeight: 500 }}>
+                        ← Back to {data.person.gender === 'male' ? 'Men' : 'Women'}
+                    </button>
+
+                    <div className="large-outfit-wrapper">
+                        <img
+                            src={data.wearing && 'image_url' in data.wearing && typeof data.wearing.image_url === 'string' ? data.wearing.image_url : data.person.image_url}
+                            alt="Outfit"
+                            className="large-outfit-image"
+                        />
+                    </div>
+                </div>
+
+                {/* Right Column: Components & Recommendations */}
+                <div className="outfit-detail-content-col">
+
+                    {!data.wearing ? (
+                        <div className="empty-state">No outfit data available for this model.</div>
+                    ) : (
+                        <OutfitSection wearing={data.wearing} />
+                    )}
+
+                    {data.recommendations && (
+                        <div className="recommendations-container" style={{ marginTop: '4rem' }}>
+                            <h2 className="recommendations-header" style={{ fontFamily: "'Playfair Display', serif" }}>Style Recommendations</h2>
+                            {data.wearing?.outfitType === 'dress' ? (
+                                <RecommendationSection title="Similar Dresses" items={data.recommendations.dress || []} />
+                            ) : (
+                                <>
+                                    <RecommendationSection title="Similar Tops" items={data.recommendations.top || []} />
+                                    <RecommendationSection title="Similar Bottoms" items={data.recommendations.bottom || []} />
+                                </>
+                            )}
+                            <RecommendationSection title="Similar Shoes" items={data.recommendations.shoes || []} />
+                        </div>
+                    )}
                 </div>
             </div>
-
-            {!data.wearing ? (
-                <div className="empty-state">No outfit data available for this model.</div>
-            ) : (
-                <OutfitSection wearing={data.wearing} />
-            )}
-
-            {data.recommendations && (
-                <div className="recommendations-container">
-                    <h2 className="recommendations-header">Style Recommendations</h2>
-                    {data.wearing?.outfitType === 'dress' ? (
-                        <RecommendationSection title="Similar Dresses" items={data.recommendations.dress || []} />
-                    ) : (
-                        <>
-                            <RecommendationSection title="Similar Tops" items={data.recommendations.top || []} />
-                            <RecommendationSection title="Similar Bottoms" items={data.recommendations.bottom || []} />
-                        </>
-                    )}
-                    <RecommendationSection title="Similar Shoes" items={data.recommendations.shoes || []} />
-                </div>
-            )}
         </div>
     );
 };

@@ -36,35 +36,44 @@ const HomePage: React.FC = () => {
     const { person, outfits } = data;
 
     return (
-        <div className="container">
-            <button className="btn btn-secondary back-btn" onClick={() => navigate('/')}>
-                ← Back to Gender Selection
-            </button>
-            <header className="page-header">
-                <h1 className="main-title">{person.name}'s Virtual Try-On</h1>
-                <p className="subtitle">Select an outfit combination to see details & styling.</p>
+        <div className="lookbook-container">
+            {/* Top Navigation Bar */}
+            <nav className="lookbook-nav">
+                <div className="nav-brand" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>LOOKBOOK</div>
+                <div className="nav-collection">2026 COLLECTION</div>
+            </nav>
+
+            {/* Header Section */}
+            <header className="lookbook-header">
+                <h1 className="lookbook-title">
+                    Curated outfits,<br />
+                    effortless style.
+                </h1>
+                <p className="lookbook-subtitle">
+                    Explore our hand-picked selection of complete looks. Click any<br />
+                    model to discover each piece and find similar styles.
+                </p>
             </header>
 
-            <div className="person-grid">
+            {/* Featured Looks Divider */}
+            <div className="featured-divider">
+                <span className="featured-text">FEATURED LOOKS</span>
+                <span className="styles-count">{outfits.length} styles</span>
+            </div>
+
+            {/* Grid */}
+            <div className="lookbook-grid">
                 {outfits.map((outfit, index) => (
                     <div
                         key={outfit.id}
-                        className="card person-card"
+                        className="lookbook-card"
                         onClick={() => navigate(`/outfit/${person.id}/${outfit.id}`)}
                     >
-                        <div className="card-image-wrapper">
+                        <div className="lookbook-image-wrapper">
                             <img src={outfit.image_url || person.image_url} alt={`${person.name} Outfit ${index + 1}`} loading="lazy" />
                         </div>
-                        <div className="card-content">
-                            <h3 className="card-title">Outfit #{index + 1}</h3>
-                            <span className="badge">{outfit.outfitType === 'dress' ? 'Dress Combo' : 'Casual Mix'}</span>
-                            <div style={{ marginTop: '1rem', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
-                                {outfit.outfitType === 'dress' ? (
-                                    <>Includes dress & shoes</>
-                                ) : (
-                                    <>Includes top, bottom & shoes</>
-                                )}
-                            </div>
+                        <div className="lookbook-card-footer">
+                            <span className="lookbook-gender">{person.gender.toUpperCase()}</span>
                         </div>
                     </div>
                 ))}
