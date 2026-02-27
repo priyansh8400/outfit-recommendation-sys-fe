@@ -24,7 +24,13 @@ const GenderSelectPage: React.FC = () => {
                     onClick={() => navigate('/outfits/male')}
                     style={{ cursor: 'pointer', textAlign: 'center', padding: '3rem 2rem' }}
                 >
-                    <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>👨🏽</div>
+                    <div style={{ marginBottom: '1rem' }}>
+                        <img
+                            src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=800&q=80"
+                            alt="Men"
+                            style={{ width: '300px', height: '300px', borderRadius: '50%', objectFit: 'cover', margin: '0 auto', display: 'block' }}
+                        />
+                    </div>
                     <h2 style={{ fontSize: '2rem', fontWeight: 700, margin: 0 }}>Men</h2>
                 </div>
 
@@ -33,7 +39,13 @@ const GenderSelectPage: React.FC = () => {
                     onClick={() => navigate('/outfits/female')}
                     style={{ cursor: 'pointer', textAlign: 'center', padding: '3rem 2rem' }}
                 >
-                    <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>👩🏽</div>
+                    <div style={{ marginBottom: '1rem' }}>
+                        <img
+                            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800&q=80"
+                            alt="Women"
+                            style={{ width: '300px', height: '300px', borderRadius: '50%', objectFit: 'cover', margin: '0 auto', display: 'block' }}
+                        />
+                    </div>
                     <h2 style={{ fontSize: '2rem', fontWeight: 700, margin: 0 }}>Women</h2>
                 </div>
             </div>

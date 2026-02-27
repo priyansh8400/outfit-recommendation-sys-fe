@@ -67,6 +67,20 @@ const OutfitPage: React.FC = () => {
 
                     {data.recommendations && (
                         <div className="recommendations-container" style={{ marginTop: '4rem' }}>
+                            <div style={{
+                                backgroundColor: '#000',
+                                color: '#fff',
+                                padding: '1.5rem',
+                                textAlign: 'center',
+                                fontSize: '1.8rem',
+                                fontWeight: 'bold',
+                                marginBottom: '2.5rem',
+                                cursor: 'pointer',
+                                textTransform: 'uppercase',
+                                letterSpacing: '2px'
+                            }}>
+                                Try It on Yourself!
+                            </div>
                             <h2 className="recommendations-header" style={{ fontFamily: "'Playfair Display', serif" }}>Style Recommendations</h2>
                             {data.wearing?.outfitType === 'dress' ? (
                                 <RecommendationSection title="Similar Dresses" items={data.recommendations.dress || []} />

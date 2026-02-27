@@ -39,7 +39,7 @@ const HomePage: React.FC = () => {
         <div className="lookbook-container">
             {/* Top Navigation Bar */}
             <nav className="lookbook-nav">
-                <div className="nav-brand" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>LOOKBOOK</div>
+                <div className="nav-brand" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>DISCOVERY PAGE</div>
                 <div className="nav-collection">2026 COLLECTION</div>
             </nav>
 
