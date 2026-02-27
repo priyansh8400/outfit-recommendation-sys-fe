@@ -11,6 +11,7 @@ export interface Clothes {
     price?: number | null;
     color: string | null;
     brand: string | null;
+    product_url?: string | null;
     created_at: string;
 }
 

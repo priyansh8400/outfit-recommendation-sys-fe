@@ -6,8 +6,8 @@ interface ClothesCardProps {
 }
 
 const ClothesCard: React.FC<ClothesCardProps> = ({ clothes }) => {
-    return (
-        <div className="card clothes-card">
+    const cardContent = (
+        <>
             <div className="card-image-wrapper clothes-img-wrapper">
                 <img src={clothes.image_url} alt={clothes.name} loading="lazy" />
             </div>
@@ -31,7 +31,32 @@ const ClothesCard: React.FC<ClothesCardProps> = ({ clothes }) => {
                         {clothes.color}
                     </span>}
                 </div>
+                {clothes.product_url && (
+                    <div className="product-link-hint">
+                        View on Store ↗
+                    </div>
+                )}
             </div>
+        </>
+    );
+
+    if (clothes.product_url) {
+        return (
+            <a
+                href={clothes.product_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="card clothes-card clothes-card-link"
+                style={{ textDecoration: 'none', color: 'inherit' }}
+            >
+                {cardContent}
+            </a>
+        );
+    }
+
+    return (
+        <div className="card clothes-card">
+            {cardContent}
         </div>
     );
 };
